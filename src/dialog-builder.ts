@@ -32,11 +32,10 @@ export class DialogBuilder {
 			blockEscapeKey: false,
 			preventCancel: false,
 			content: '',
-			confirmButton: 'Ok',
-			cancelButton: undefined,
+			confirmButton: undefined,
+			cancelButton: 'Close',
 			style: undefined,
 			headline: undefined,
-			onDialogReady: undefined,
 			...options,
 		}
 

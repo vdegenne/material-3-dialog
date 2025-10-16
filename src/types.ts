@@ -90,13 +90,13 @@ export interface DialogOptions {
 	/**
 	 * Confirm button options.
 	 *
-	 * @default "Ok"
+	 * @default undefined
 	 */
 	confirmButton: RenderButtonOptionType
 	/**
 	 * Cancel button options.
 	 *
-	 * @default undefined
+	 * @default 'Close'
 	 */
 	cancelButton: RenderButtonOptionType
 
@@ -107,7 +107,7 @@ export interface DialogOptions {
 	 * @default undefined
 	 * @deprecated
 	 */
-	onDialogReady: ((dialog: MdDialog) => void | Promise<void>) | undefined
+	// onDialogReady: ((dialog: MdDialog) => void | Promise<void>) | undefined
 
 	/**
 	 * Whether or not to close the dialog on scrim click.
