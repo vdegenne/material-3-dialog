@@ -38,7 +38,7 @@ export class DialogBuilder {
 		const container = document.createElement('div')
 		document.body.appendChild(container)
 
-		import('@material/web/dialog/dialog.js')
+		const importPromise = import('@material/web/dialog/dialog.js')
 
 		render(
 			html`<!---->
@@ -70,7 +70,9 @@ export class DialogBuilder {
 			container,
 		)
 
-		this.dialog.updateComplete.then(() => this.#postInitialRender())
+		Promise.all([this.dialog.updateComplete, importPromise]).then(() =>
+			this.#postInitialRender(),
+		)
 	}
 	#postInitialRender() {
 		this.#initialRenderPWR.resolve()
