@@ -1,17 +1,22 @@
 import {type MdDialog} from '@material/web/dialog/dialog.js'
 import {html, render} from 'lit-html'
+import {isTemplateResult} from 'lit-html/directive-helpers.js'
 import {ifDefined} from 'lit-html/directives/if-defined.js'
 import {createRef, ref} from 'lit-html/directives/ref.js'
 import {styleMap} from 'lit-html/directives/style-map.js'
 import {until} from 'lit-html/directives/until.js'
 import {literal, html as staticHtml} from 'lit-html/static.js'
-import type {DialogButton, DialogOptions} from './types.js'
+import type {
+	DialogButton,
+	DialogOptions,
+	RenderButtonOptionType,
+} from './types.js'
 
 export class DialogBuilder {
 	#o: DialogOptions
 	#dialogRef = createRef<MdDialog>()
 
-	#initialRenderPWR = Promise.withResolvers<void>()
+	#initialRenderPWR = Promise.withResolvers<MdDialog>()
 	get initialRenderComplete() {
 		return this.#initialRenderPWR.promise
 	}
@@ -75,7 +80,7 @@ export class DialogBuilder {
 		)
 	}
 	#postInitialRender() {
-		this.#initialRenderPWR.resolve()
+		this.#initialRenderPWR.resolve(this.dialog)
 	}
 
 	#renderHeadline() {
@@ -100,39 +105,31 @@ export class DialogBuilder {
 			this.#o.cancelButton !== undefined
 			? html`<!-- -->
 					<div slot="actions">
-						${this.#renderButton(
-							this.#o.cancelButton !== undefined
-								? typeof this.#o.cancelButton === 'string'
-									? {label: this.#o.cancelButton}
-									: {label: 'Cancel', ...this.#o.cancelButton}
-								: undefined,
-						)}
-						${this.#renderButton(
-							this.#o.confirmButton !== undefined
-								? typeof this.#o.confirmButton === 'string'
-									? {label: this.#o.confirmButton}
-									: {label: 'Confirm', ...this.#o.confirmButton}
-								: undefined,
-						)}
+						${this.#renderButton(this.#o.cancelButton, 'Cancel')}
+						${this.#renderButton(this.#o.confirmButton, 'Confirm')}
 					</div>
 					<!-- -->`
 			: null
 	}
-	#renderButton(options: Partial<DialogButton> | string | undefined) {
-		if (options === undefined) {
-			return null
+
+	#renderButton(options: RenderButtonOptionType, labelFallBack: string) {
+		if (options === undefined) return
+
+		if (isTemplateResult(options)) {
+			return options
 		}
+		if (typeof options === 'string') {
+			options = {label: options}
+		} else if (typeof options === 'object') {
+			options = {label: labelFallBack, ...options}
+		}
+
 		const _o: DialogButton = {
 			callback: (dialog) => dialog.close(),
 			label: 'Undefined',
 			styles: undefined,
 			variant: 'md-text-button',
-		}
-
-		if (typeof options === 'string') {
-			_o.label = options
-		} else {
-			Object.assign(_o, options)
+			...options,
 		}
 
 		const tagname = (() => {

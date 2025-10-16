@@ -49,6 +49,26 @@ export interface DialogButton {
 	styles: StyleInfo | undefined
 }
 
+export type RenderButtonOptionType =
+	| Partial<DialogButton>
+	| string
+	| {}
+	| undefined
+
+// export type A = Partial<{label: string}> | TemplateResult<1>
+//
+// const x: A = {label: 'test'}
+// const y: A = html`test`
+//
+// //
+// //
+// //
+// //
+// //
+// //
+// //
+// console.log(x, y, z)
+
 export interface DialogOptions {
 	/**
 	 * @default false
@@ -72,13 +92,13 @@ export interface DialogOptions {
 	 *
 	 * @default "Ok"
 	 */
-	confirmButton: Partial<DialogButton> | string | undefined
+	confirmButton: RenderButtonOptionType
 	/**
 	 * Cancel button options.
 	 *
 	 * @default undefined
 	 */
-	cancelButton: Partial<DialogButton> | string | undefined
+	cancelButton: RenderButtonOptionType
 
 	/**
 	 * Callback when the dialog content is ready (before it opens).
