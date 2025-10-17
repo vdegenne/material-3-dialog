@@ -24,15 +24,6 @@ export interface DialogButton {
 	variant: ButtonVariant
 
 	/**
-	 * The dialog action that the button emits when clicked.
-	 *
-	 * By default, `returnValue` will use `label` as the value.
-	 * Be careful, empty value will prevent the dialog to close on button click.
-	 *
-	 */
-	// returnValue: string
-
-	/**
 	 * Option callback to execute when the button is clicked.
 	 *
 	 * By default the dialog closes and do nothing.
@@ -46,28 +37,14 @@ export interface DialogButton {
 	 *
 	 * @default undefined
 	 */
-	styles: StyleInfo | undefined
+	style: StyleInfo | undefined
 }
 
 export type RenderButtonOptionType =
 	| Partial<DialogButton>
 	| string
-	| {}
+	| TemplateResult
 	| undefined
-
-// export type A = Partial<{label: string}> | TemplateResult<1>
-//
-// const x: A = {label: 'test'}
-// const y: A = html`test`
-//
-// //
-// //
-// //
-// //
-// //
-// //
-// //
-// console.log(x, y, z)
 
 export interface DialogOptions {
 	/**
@@ -86,7 +63,9 @@ export interface DialogOptions {
 	content:
 		| string
 		| TemplateResult
-		| ((dialog: MdDialog) => string | TemplateResult)
+		| ((
+				dialog: MdDialog,
+		  ) => string | TemplateResult | Promise<string | TemplateResult>)
 	/**
 	 * Confirm button options.
 	 *
@@ -138,15 +117,4 @@ export interface DialogOptions {
 	 * @default undefined
 	 */
 	style: StyleInfo | undefined
-
-	/**
-	 * you can return '' to prevent closing
-	 *
-	 * @default undefined
-	 */
-	// onClose:
-	// 	| ((
-	// 			dialog: MdDialog,
-	// 	  ) => (string | undefined | void) | Promise<string | undefined | void>)
-	// 	| undefined
 }

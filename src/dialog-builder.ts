@@ -53,10 +53,9 @@ export class DialogBuilder {
 						this.#o.style ? styleMap(this.#o.style) : undefined,
 					)}"
 					@cancel="${(e: Event) => {
-						// returnValue = ''
 						if (this.#o.preventCancel) {
 							e.preventDefault()
-							// TODO: <dialog> default behavior closes on 2 escape key presses.
+							// <dialog> default behavior closes on 2 escape key presses.
 						}
 					}}"
 					@closed=${() => {
@@ -74,7 +73,7 @@ export class DialogBuilder {
 			container,
 		)
 
-		Promise.all([this.dialog.updateComplete, importPromise]).then(() =>
+		Promise.all([importPromise, this.dialog.updateComplete]).then(() =>
 			this.#postInitialRender(),
 		)
 	}
@@ -91,7 +90,7 @@ export class DialogBuilder {
 		const render = async () => {
 			await this.initialRenderComplete
 			if (typeof this.#o.content === 'function') {
-				return this.#o.content(this.dialog)
+				return await this.#o.content(this.dialog)
 			} else {
 				return this.#o.content
 			}
@@ -123,16 +122,16 @@ export class DialogBuilder {
 			options = {label: labelFallBack, ...options}
 		}
 
-		const _o: DialogButton = {
+		const opts: DialogButton = {
 			callback: (dialog) => dialog.close(),
 			label: 'Undefined',
-			styles: undefined,
+			style: undefined,
 			variant: 'md-text-button',
 			...options,
 		}
 
 		const tagname = (() => {
-			switch (_o.variant) {
+			switch (opts.variant) {
 				case 'md-text-button':
 					import('@material/web/button/text-button.js')
 					return literal`md-text-button`
@@ -151,13 +150,12 @@ export class DialogBuilder {
 			}
 		})()
 
-		// const value = _o.returnValue !== undefined ? _o.returnValue : _o.label
-
 		return staticHtml`
 			<${tagname}
-				@click=${ifDefined(_o.callback ? () => _o.callback!(this.dialog) : undefined)}
+				@click=${ifDefined(opts.callback ? () => opts.callback!(this.dialog) : undefined)}
+				style="${ifDefined(opts.style ? styleMap(opts.style) : undefined)}"
 			>
-				${_o.label}
+				${opts.label}
 			</${tagname}>
 		`
 	}
