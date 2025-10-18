@@ -8,6 +8,8 @@ type ButtonVariant =
 	| 'md-filled-tonal-button'
 	| 'md-elevated-button'
 
+type ButtonCallBack = (dialog: MdDialog) => void
+
 export interface DialogButton {
 	/**
 	 * The label of the button.
@@ -30,7 +32,7 @@ export interface DialogButton {
 	 * Overriding the callback will prevent the dialog to close, you'll have to close the dialog manually
 	 * calling `dialog.close()`. This allows you to implement your own logic (both sync and async).
 	 */
-	callback: ((dialog: MdDialog) => void) | undefined
+	callback: ButtonCallBack | undefined
 
 	/**
 	 * Set of additional styles for the button
@@ -44,6 +46,7 @@ export type RenderButtonOptionType =
 	| Partial<DialogButton>
 	| string
 	| TemplateResult
+	| ButtonCallBack
 	| undefined
 
 export interface DialogOptions {

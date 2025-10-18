@@ -33,10 +33,15 @@ export class DialogBuilder {
 			preventCancel: false,
 			content: '',
 			confirmButton: undefined,
-			cancelButton: 'Close',
+			cancelButton: options?.confirmButton ? 'Cancel' : 'Close',
 			style: undefined,
 			headline: undefined,
 			...options,
+		}
+
+		this.#o.style = {
+			width: '400px',
+			...this.#o.style,
 		}
 
 		const container = document.createElement('div')
@@ -116,10 +121,17 @@ export class DialogBuilder {
 		if (isTemplateResult(options)) {
 			return options
 		}
-		if (typeof options === 'string') {
-			options = {label: options}
-		} else if (typeof options === 'object') {
-			options = {label: labelFallBack, ...options}
+
+		switch (typeof options) {
+			case 'string':
+				options = {label: options}
+				break
+			case 'object':
+				options = {label: labelFallBack, ...options}
+				break
+			case 'function':
+				options = {label: labelFallBack, callback: options}
+				break
 		}
 
 		const opts: DialogButton = {
