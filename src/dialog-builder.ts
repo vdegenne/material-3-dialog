@@ -78,9 +78,10 @@ export class DialogBuilder {
 			container,
 		)
 
-		Promise.all([importPromise, this.dialog.updateComplete]).then(() =>
-			this.#postInitialRender(),
-		)
+		importPromise.then(async () => {
+			await this.dialog.updateComplete
+			this.#postInitialRender()
+		})
 	}
 	#postInitialRender() {
 		this.#initialRenderPWR.resolve(this.dialog)
