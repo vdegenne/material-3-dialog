@@ -40,6 +40,11 @@ export interface DialogButton {
 	 * @default undefined
 	 */
 	style: StyleInfo | undefined
+
+	/**
+	 * @default false
+	 */
+	autofocus: boolean
 }
 
 export type RenderButtonOptionType =

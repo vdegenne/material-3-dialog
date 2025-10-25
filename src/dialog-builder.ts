@@ -137,6 +137,7 @@ export class DialogBuilder {
 
 		const opts: DialogButton = {
 			callback: (dialog) => dialog.close(),
+			autofocus: false,
 			label: 'Undefined',
 			style: undefined,
 			variant: 'md-text-button',
@@ -167,6 +168,7 @@ export class DialogBuilder {
 			<${tagname}
 				@click=${ifDefined(opts.callback ? () => opts.callback!(this.dialog) : undefined)}
 				style="${ifDefined(opts.style ? styleMap(opts.style) : undefined)}"
+				?autofocus=${opts.autofocus}
 			>
 				${opts.label}
 			</${tagname}>
