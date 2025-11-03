@@ -1,3 +1,4 @@
+import {cquerySelector} from 'html-vision'
 import {type MdDialog} from '@material/web/dialog/dialog.js'
 import {html, render} from 'lit-html'
 import {isTemplateResult} from 'lit-html/directive-helpers.js'
@@ -86,7 +87,7 @@ export class DialogBuilder {
 	#postInitialRender() {
 		this.#initialRenderPWR.resolve(this.dialog)
 
-		this.dialog.querySelector<HTMLElement>('[autofocus]')?.focus()
+		cquerySelector('[autofocus]', this.dialog)
 	}
 
 	#renderHeadline() {

@@ -1,6 +1,6 @@
 {
 	"name": "material-3-dialog",
-	"version": "0.1.8",
+	"version": "0.1.9",
 	"type": "module",
 	"exports": {
 		".": {
@@ -16,13 +16,15 @@
 	],
 	"devDependencies": {
 		"@material/web": "^2.4.0",
+		"html-vision": "^0.3.6",
 		"lit-html": "^3.3.1",
 		"typescript": "^5.9.3",
 		"wireit": "^0.14.12"
 	},
 	"peerDependencies": {
 		"@material/web": "^2.4.0",
-		"lit-html": "^3.3.1"
+		"lit-html": "^3.3.1",
+		"html-vision": "^0.3.6"
 	},
 	"wireit": {
 		"build": {
