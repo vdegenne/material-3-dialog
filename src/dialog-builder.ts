@@ -85,6 +85,8 @@ export class DialogBuilder {
 	}
 	#postInitialRender() {
 		this.#initialRenderPWR.resolve(this.dialog)
+
+		this.dialog.querySelector<HTMLElement>('[autofocus]')?.focus()
 	}
 
 	#renderHeadline() {
