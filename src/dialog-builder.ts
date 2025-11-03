@@ -87,7 +87,9 @@ export class DialogBuilder {
 	#postInitialRender() {
 		this.#initialRenderPWR.resolve(this.dialog)
 
-		cquerySelector('[autofocus]', this.dialog)?.focus()
+		new Promise((r) => requestAnimationFrame(r)).then(() => {
+			cquerySelector('[autofocus]', this.dialog)?.focus()
+		})
 	}
 
 	#renderHeadline() {
