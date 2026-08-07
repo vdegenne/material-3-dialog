@@ -1,5 +1,5 @@
-import {cquerySelector} from 'html-vision'
 import {type MdDialog} from '@material/web/dialog/dialog.js'
+import {$} from 'html-vision'
 import {html, render} from 'lit-html'
 import {isTemplateResult} from 'lit-html/directive-helpers.js'
 import {ifDefined} from 'lit-html/directives/if-defined.js'
@@ -88,7 +88,7 @@ export class DialogBuilder {
 		this.#initialRenderPWR.resolve(this.dialog)
 
 		new Promise((r) => requestAnimationFrame(r)).then(() => {
-			cquerySelector('[autofocus]', this.dialog)?.focus()
+			$('[autofocus]', {from: this.dialog})?.focus()
 		})
 	}
 
